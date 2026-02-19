@@ -1,0 +1,255 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== ANIMATIONS ===== */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes blob-move {
+
+  0%,
+  100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+
+  50% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+  }
+}
+
+@keyframes toast-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===== BASE ===== */
+@layer base {
+  body {
+    @apply bg-pop-bg text-pop-black overflow-x-hidden min-h-screen;
+    font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+    scrollbar-width: thin;
+    scrollbar-color: #000000 #f3f4f6;
+  }
+
+  /* Webkit Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f3f4f6;
+    border-left: 2px solid #000;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #000;
+    border: 2px solid #f3f4f6;
+    border-radius: 0px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #FF0080;
+  }
+
+  /* Text Selection */
+  ::selection {
+    background-color: #FF0080;
+    color: #fff;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply leading-tight;
+  }
+
+  /* Smooth focus outlines for accessibility */
+  :focus-visible {
+    outline: 3px solid #7c3aed;
+    outline-offset: 2px;
+  }
+}
+
+/* ===== UTILITIES ===== */
+@layer utilities {
+
+  /* --- Cards / Shadows --- */
+  .torn-ticket {
+    clip-path: polygon(3% 0%, 97% 0%, 100% 3%, 100% 97%, 97% 100%, 3% 100%, 0% 97%, 0% 3%);
+  }
+
+  .bg-graph-paper {
+    background-size: 24px 24px;
+    background-image:
+      linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+    background-color: white;
+  }
+
+  .bg-dot-pattern {
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.12) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .pt-safe {
+    padding-top: max(5rem, env(safe-area-inset-top));
+  }
+
+  /* --- Skeleton Shimmer --- */
+  .animate-shimmer {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite linear;
+  }
+
+  /* --- Marquee Ticker --- */
+  .animate-marquee {
+    animation: marquee 22s linear infinite;
+  }
+
+  .animate-marquee-slow {
+    animation: marquee 40s linear infinite;
+  }
+
+  /* --- Float / Blob --- */
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  .animate-blob {
+    animation: blob-move 8s ease-in-out infinite;
+  }
+
+  .animate-spin-slow {
+    animation: spin-slow 10s linear infinite;
+  }
+
+  /* --- Toast animation --- */
+  .animate-toast-in {
+    animation: toast-in 0.35s ease-out forwards;
+  }
+
+  /* --- Text strokes --- */
+  .text-stroke-black {
+    -webkit-text-stroke: 2px #000;
+    color: transparent;
+  }
+
+  .text-stroke-white {
+    -webkit-text-stroke: 2px #fff;
+    color: transparent;
+  }
+
+  /* --- Scrollbar hide util --- */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* ===== COMPONENTS ===== */
+@layer components {
+
+  /* Neo-Brutalist Card */
+  .neo-card {
+    @apply border-3 border-black rounded-2xl shadow-hard bg-white text-black transition-all duration-200 hover:-translate-y-1 hover:shadow-hard-xl;
+  }
+
+  /* Input */
+  .neo-input {
+    @apply w-full px-4 py-3 rounded-xl border-3 border-black bg-white text-black font-semibold placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-purple-500/40 focus:border-purple-500 transition-all;
+  }
+
+  /* Buttons */
+  .neo-btn {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-3 rounded-full font-extrabold uppercase tracking-wide border-3 border-black shadow-hard transition-all duration-200 hover:-translate-y-1 hover:shadow-hard-xl active:scale-95 active:shadow-none cursor-pointer select-none;
+  }
+
+  .neo-btn-primary {
+    @apply bg-yellow-300 text-black hover:bg-white;
+  }
+
+  .neo-btn-secondary {
+    @apply bg-black text-white hover:bg-gray-800;
+  }
+
+  .neo-btn-pink {
+    @apply bg-pink-500 text-white hover:bg-pink-600;
+  }
+
+  .neo-btn-purple {
+    @apply bg-purple-600 text-white hover:bg-purple-700;
+  }
+
+  /* Breadcrumbs */
+  .breadcrumb-link {
+    @apply flex items-center gap-1 font-semibold text-gray-500 text-sm uppercase tracking-wider hover:text-black transition-colors;
+  }
+
+  .breadcrumb-active {
+    @apply font-extrabold text-purple-600 text-sm uppercase tracking-wider;
+  }
+
+  /* Acid / Feature Card */
+  .acid-card {
+    @apply bg-[#111] border-2 border-white/10 rounded-2xl p-6 relative overflow-hidden transition-all duration-200 hover:border-yellow-400/60 hover:shadow-[0_0_24px_rgba(250, 204, 21, 0.15)];
+  }
+
+  /* Toast */
+  .toast {
+    @apply fixed bottom-6 right-6 z-[200] flex items-start gap-4 bg-black text-white px-6 py-4 rounded-2xl border-3 border-black shadow-hard-xl font-bold text-sm;
+    animation: toast-in 0.35s ease-out;
+  }
+}
