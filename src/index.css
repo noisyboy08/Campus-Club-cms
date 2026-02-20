@@ -15,6 +15,92 @@
   }
 }
 
+/* ===== Dark mode overrides for existing utility classes ===== */
+/* These override Tailwind-generated classes when the `.dark` class is on <html> */
+.dark body {
+  background-color: #071021; /* dark background */
+  color: #e6eef2; /* light text */
+}
+
+.dark .bg-pop-bg { background-color: #071021 !important; }
+.dark .bg-pop-white { background-color: #08121a !important; }
+.dark .text-pop-black { color: #e6eef2 !important; }
+.dark .text-gray-500 { color: #9ca3af !important; }
+.dark .text-black { color: #e6eef2 !important; }
+.dark .bg-white { background-color: #08121a !important; }
+.dark .bg-gray-900 { background-color: #061018 !important; }
+.dark .bg-gray-900\/80 { background-color: rgba(6,16,24,0.8) !important; }
+.dark .border-black { border-color: #e6eef2 !important; }
+.dark .border-gray-200 { border-color: rgba(230,238,242,0.06) !important; }
+.dark .border-gray-100 { border-color: rgba(230,238,242,0.04) !important; }
+.dark .shadow-hard { box-shadow: 6px 6px 0px 0px rgba(230,238,242,0.06) !important; }
+.dark .shadow-hard-sm { box-shadow: 3px 3px 0px 0px rgba(230,238,242,0.06) !important; }
+.dark .shadow-hard-xl { box-shadow: 10px 10px 0px 0px rgba(230,238,242,0.04) !important; }
+.dark .neo-card { background-color: #08121a !important; color: #e6eef2 !important; border-color: rgba(230,238,242,0.04) !important; }
+.dark .neo-input { background-color: #07121a !important; color: #e6eef2 !important; border-color: rgba(230,238,242,0.04) !important; }
+.dark .neo-btn-primary { background-color: #fff7a8 !important; color: #000 !important; }
+.dark .neo-btn-secondary { background-color: #0b1220 !important; color: #e6eef2 !important; }
+
+/* Additional broad overrides to ensure legibility in dark mode */
+.dark .text-black,
+.dark .text-gray-900,
+.dark .text-gray-800,
+.dark .text-gray-700,
+.dark .text-gray-600,
+.dark .text-gray-500,
+.dark .text-gray-400,
+.dark .text-gray-300,
+.dark .text-white {
+  color: #e6eef2 !important;
+}
+
+.dark .bg-white,
+.dark .bg-gray-50,
+.dark .bg-gray-100,
+.dark .bg-gray-200,
+.dark .bg-pop-white {
+  background-color: #07121a !important;
+}
+
+.dark .bg-black,
+.dark .bg-gray-800,
+.dark .bg-gray-700,
+.dark .bg-gray-600,
+.dark .bg-gray-900 {
+  background-color: #04121a !important;
+}
+
+.dark .border-black,
+.dark .border-gray-200,
+.dark .border-gray-300,
+.dark .border-gray-400,
+.dark .border-gray-100 {
+  border-color: rgba(230,238,242,0.06) !important;
+}
+
+/* Inputs and placeholders */
+.dark input,
+.dark textarea,
+.dark select {
+  background-color: #07121a !important;
+  color: #e6eef2 !important;
+  border-color: rgba(230,238,242,0.04) !important;
+}
+.dark ::placeholder {
+  color: rgba(230,238,242,0.5) !important;
+}
+
+/* Links and accents */
+.dark a { color: #d6e8ff !important; }
+.dark .text-pop-pink { color: #ff7aa8 !important; }
+.dark .text-pop-purple { color: #9aa8ff !important; }
+
+/* Ensure fixed backgrounds and overlays contrast */
+.dark .bg-pop-bg { background-color: #07121a !important; }
+.dark .bg-dot-pattern { background-color: transparent !important; }
+
+
+
 @keyframes marquee {
   0% {
     transform: translateX(0);
@@ -117,6 +203,132 @@
     outline-offset: 2px;
   }
 }
+
+/* ===== Theme variables ===== */
+:root {
+  --bg: #FAFAF8;
+  --surface: #FFFFFF;
+  --text: #000000;
+  --muted: #6b7280;
+  --accent: #FF0080;
+  --card-border: #000000;
+  --shadow-color: rgba(0,0,0,0.85);
+}
+
+.dark :root,
+.dark {
+  --bg: #071021;
+  --surface: #08121a;
+  --text: #e6eef2;
+  --muted: rgba(230,238,242,0.6);
+  --accent: #ffd700;
+  --card-border: rgba(230,238,242,0.06);
+  --shadow-color: rgba(230,238,242,0.06);
+}
+
+/* Semantic utilities */
+.surface { background-color: var(--surface); color: var(--text); }
+.muted { color: var(--muted); }
+.card { background-color: var(--surface); border-color: var(--card-border); color: var(--text); box-shadow: 6px 6px 0 0 var(--shadow-color); }
+.accent { color: var(--accent); }
+
+/* Dashboard v2 - professional layout */
+.dashboard-v2 {
+  --gutter: 20px;
+}
+
+.dashboard-v2 .dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0,1fr));
+  grid-auto-rows: minmax(120px, auto);
+  gap: var(--gutter);
+  align-items: start;
+}
+
+.dashboard-v2 .dashboard-card {
+  border-radius: 18px;
+  padding: 18px;
+  background: linear-gradient(180deg, var(--surface), color-mix(in srgb, var(--surface) 90%, black 2%));
+  border: 2px solid var(--card-border);
+  box-shadow: 0 8px 20px rgba(2,6,23,0.08);
+  color: var(--text);
+}
+
+.dashboard-v2 .id-card { min-height: 480px; display:flex; flex-direction:column; justify-content:center; align-items:center; }
+.dashboard-v2 .xp-card { min-height: 200px; display:flex; flex-direction:column; justify-content:center; }
+.dashboard-v2 .map-card { min-height: 360px; position:relative; }
+.dashboard-v2 .leaderboard-card { min-height: 300px; }
+.dashboard-v2 .events-row { display:flex; gap:16px; overflow-x:auto; padding-bottom:8px; }
+
+/* card headers */
+.dashboard-v2 .card-header { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:8px; }
+.dashboard-v2 .card-title { font-weight:800; letter-spacing:0.02em; }
+
+/* small UI polish */
+.dashboard-v2 .small-badge { font-size:12px; padding:6px 10px; border-radius:999px; }
+.dashboard-v2 .rounded-lg-squish { border-radius:14px; }
+
+/* Dark tweaks */
+.dark .dashboard-v2 .dashboard-card { background: linear-gradient(180deg, #08121a, color-mix(in srgb, #08121a 92%, black 2%)); box-shadow: 0 6px 18px rgba(0,0,0,0.6); border-color: var(--card-border); }
+
+/* Feature/Promo Cards (used in events feed) */
+.feature-panel {
+  min-height: 520px;
+  border-radius: 28px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  overflow: hidden;
+  border: 8px solid #000;
+  box-shadow: 0 18px 0 rgba(0,0,0,1);
+}
+
+.feature-panel .feature-icon {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 44px;
+  height: 44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:10px;
+  background: rgba(255,255,255,0.06);
+  z-index: 10;
+}
+
+.feature-panel .feature-title {
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1.03;
+  color: var(--panel-title, #000);
+  text-transform: uppercase;
+  margin: 0 0 8px 0;
+}
+
+.feature-panel .feature-sub {
+  color: var(--panel-sub, rgba(0,0,0,0.55));
+  font-weight:700;
+  font-size:14px;
+}
+
+.feature-panel .feature-bottom {
+  margin-top: 18px;
+}
+
+.feature-panel.white { background: #fff; --panel-title: #000; --panel-sub: rgba(0,0,0,0.6); }
+.feature-panel.pink { background: #ff3f6c; --panel-title: #fff; --panel-sub: rgba(255,255,255,0.9); }
+.feature-panel.blue { background: #6a6bff; --panel-title: #fff; --panel-sub: rgba(255,255,255,0.9); }
+.feature-panel.yellow { background: #ffd600; --panel-title: #000; --panel-sub: rgba(0,0,0,0.6); }
+
+@media (max-width: 900px) {
+  .feature-panel { min-height: 420px; border-radius: 20px; padding: 20px; }
+  .feature-panel .feature-title { font-size: 22px; }
+}
+
+
 
 /* ===== UTILITIES ===== */
 @layer utilities {
@@ -223,6 +435,42 @@
 
   .neo-btn-secondary {
     @apply bg-black text-white hover:bg-gray-800;
+  }
+
+  /* Feature card semantic classes */
+  .feature-card {
+    @apply rounded-[2rem] p-6 border-4 border-black shadow-[8px_8px_0_#000] flex flex-col justify-between cursor-pointer overflow-hidden;
+  }
+
+  .feature-card--pink { background-color: #ff3b6b; }
+  .feature-card--purple { background-color: #6b6bff; }
+  .feature-card--yellow { background-color: #ffd700; }
+  .feature-card--white { background-color: #ffffff; }
+
+  .feature-card .feature-icon {
+    @apply w-12 h-12 rounded-xl flex items-center justify-center;
+  }
+
+  .feature-card .feature-title {
+    @apply text-2xl font-black uppercase whitespace-pre-line leading-tight mb-2;
+  }
+
+  .feature-card .feature-desc {
+    @apply text-sm font-bold opacity-70;
+  }
+
+  /* Dark mode overrides for feature-card variants */
+  .dark .feature-card--white { background-color: #08121a !important; }
+  .dark .feature-card--pink { background-color: #ff3b6b !important; }
+  .dark .feature-card--purple { background-color: #6b6bff !important; }
+  .dark .feature-card--yellow { background-color: #ffd700 !important; }
+
+  .dark .feature-card--white .feature-title,
+  .dark .feature-card--white .feature-desc,
+  .dark .feature-card--white .feature-icon svg {
+    color: #e6eef2 !important;
+    fill: currentColor !important;
+    stroke: currentColor !important;
   }
 
   .neo-btn-pink {

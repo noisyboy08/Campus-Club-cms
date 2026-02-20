@@ -36,8 +36,16 @@ export function Navbar() {
 
                 {/* Actions */}
                 <div className="flex items-center gap-4 z-50">
-                    <button onClick={toggle} className="p-2 rounded-lg border-2 border-black hover:bg-pop-yellow transition-colors relative shadow-[2px_2px_0_#000] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]">
-                        {theme === 'dark' ? <Sun size={20} className="text-black" /> : <Moon size={20} className="text-black" />}
+                    <button
+                        onClick={toggle}
+                        aria-pressed={theme === 'dark'}
+                        aria-label="Toggle color theme"
+                        className="flex items-center gap-2 p-2 rounded-lg border-2 border-black hover:bg-pop-yellow transition-colors relative shadow-[2px_2px_0_#000] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]"
+                    >
+                        {theme === 'dark' ? <Sun size={18} className="text-black" /> : <Moon size={18} className="text-black" />}
+                        <span className="hidden md:inline font-bold text-sm">
+                            {theme === 'dark' ? 'Dark' : 'Light'}
+                        </span>
                     </button>
 
                     <button

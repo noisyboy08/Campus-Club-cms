@@ -47,48 +47,15 @@ export function Dashboard() {
     }, []);
 
     return (
-        <main className="min-h-screen bg-gray-100 text-black p-4 md:p-6 pb-24 font-sans">
+        <main className="min-h-screen bg-pop-bg dark:bg-[#071021] text-black dark:text-[#e6eef2] p-4 md:p-6 pb-24 font-sans">
 
             {/* --- TOP BAR (HUD) --- */}
             <header className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4 border-b-4 border-black pb-4 relative z-50">
                 <div>
                     <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-[0.8]">
-                        Morning,<br />
-                        <span className="text-transparent text-stroke-black hover:text-pop-purple transition-colors duration-300">
-                            {MOCK_PROFILE.full_name.split(' ')[0]}
-                        </span>
+                        Morning,
                     </h1>
-                    <div className="flex items-center gap-2 mt-2">
-                        <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse border border-black" />
-                        <span className="font-mono text-xs font-bold uppercase tracking-widest text-gray-500">
-                            System Online • v2.0.4
-                        </span>
-                    </div>
-                </div>
-
-                <div className="flex items-center gap-6 text-right">
-                    <div className="hidden md:block">
-                        <p className="text-4xl font-black">{currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-                        <p className="font-bold uppercase text-xs tracking-widest text-gray-400">{currentTime.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })}</p>
-                    </div>
-                    <div className="flex gap-2 relative">
-                        {/* Focus Mode Toggle */}
-                        <button
-                            onClick={() => setFocusMode(!focusMode)}
-                            className={`w-12 h-12 border-2 border-black rounded-full flex items-center justify-center hover:scale-105 transition-all ${focusMode ? 'bg-pop-purple text-white shadow-inner' : 'bg-white hover:bg-gray-100'}`}
-                            title="Toggle Focus Mode"
-                        >
-                            {focusMode ? <Zap className="w-5 h-5 fill-current" /> : <Zap className="w-5 h-5" />}
-                        </button>
-                        <button
-                            onClick={() => setShowSearch(true)}
-                            className="w-12 h-12 bg-white border-2 border-black rounded-full flex items-center justify-center hover:bg-black hover:text-white transition-colors group"
-                            title="Ctrl+K"
-                        >
-                            <Search className="w-5 h-5" />
-                        </button>
-
-                        <div className="relative">
+                    <div className="relative">
                             <button
                                 onClick={() => setShowNotifications(!showNotifications)}
                                 className={`w-12 h-12 border-2 border-black rounded-full flex items-center justify-center relative hover:scale-105 transition-transform shadow-hard-sm ${showNotifications ? 'bg-black text-white' : 'bg-pop-yellow text-black'}`}
@@ -135,7 +102,6 @@ export function Dashboard() {
                             </AnimatePresence>
                         </div>
                     </div>
-                </div>
             </header>
 
             {/* --- BENTO GRID LAYOUT --- */}
@@ -145,7 +111,7 @@ export function Dashboard() {
                 <div className="md:col-span-6 lg:col-span-3 row-span-2">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-                        className="h-full bg-white rounded-[2rem] border-4 border-black shadow-hard p-2 flex flex-col items-center justify-center relative overflow-hidden group min-h-[400px]"
+                        className="card rounded-[2rem] border-4 p-4 flex flex-col items-center justify-center relative overflow-hidden group min-h-[450px]"
                     >
                         <div className="absolute top-0 left-0 w-full h-2 bg-pop-stripes opacity-20" />
 
@@ -153,8 +119,8 @@ export function Dashboard() {
                             <ID />
                         </div>
 
-                        <div className="mt-[-20px] mb-4 text-center z-10 w-full">
-                            <Link to="/apps/org" className="inline-block px-4 py-2 bg-black text-white rounded-full font-bold text-xs uppercase hover:bg-pop-purple transition-colors">
+                        <div className="mt-4 mb-2 text-center z-10 w-full px-4">
+                            <Link to="/apps/org" className="inline-block px-4 py-2 bg-black dark:bg-[#0b1220] text-white rounded-full font-bold text-xs uppercase hover:bg-pop-purple transition-colors">
                                 View Full Profile
                             </Link>
                         </div>
@@ -166,7 +132,7 @@ export function Dashboard() {
                     {/* XP Card */}
                     <motion.div
                         initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.2 }}
-                        className="bg-pop-purple rounded-[2rem] border-4 border-black shadow-hard p-6 text-white relative overflow-hidden flex-1"
+                        className="rounded-[2rem] border-4 p-6 relative overflow-hidden flex-1 min-h-[180px] bg-[linear-gradient(180deg,#6b6bff,rgba(107,107,255,0.85))] text-white"
                     >
                         <div className="absolute -right-4 -top-4 text-white/10">
                             <Zap className="w-32 h-32 rotate-12" />
@@ -180,28 +146,28 @@ export function Dashboard() {
                     </motion.div>
 
                     {/* Mini Leaderboard */}
-                    <div className="flex-1 bg-white rounded-[2rem] border-4 border-black shadow-hard overflow-hidden flex flex-col min-h-[300px]">
+                    <div className="flex-1 card rounded-[2rem] overflow-hidden flex flex-col min-h-[300px]">
                         <div className="bg-pop-yellow p-4 border-b-4 border-black flex justify-between items-center">
                             <h3 className="font-black uppercase text-lg">Top 3 Ranking</h3>
                             <Target className="w-5 h-5" />
                         </div>
-                        <div className="p-2 overflow-y-auto custom-scrollbar flex-1">
+                        <div className="p-4 overflow-y-auto custom-scrollbar flex-1">
                             <Leaderboard />
                         </div>
                     </div>
                 </div>
 
                 {/* 2. MAIN MAP WIDGET (6 cols) */}
-                <div className="md:col-span-12 lg:col-span-6 row-span-1 h-[400px]">
+                <div className="md:col-span-12 lg:col-span-6 row-span-1 h-[450px]">
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
-                        className="w-full h-full bg-black rounded-[2rem] border-4 border-black shadow-hard overflow-hidden relative group"
+                        className="w-full h-full rounded-[2rem] border-4 overflow-hidden relative group card"
                     >
                         <div className="absolute top-4 left-4 z-10 flex gap-2">
-                            <span className="bg-white px-3 py-1 rounded-full text-xs font-black uppercase border-2 border-black">
+                            <span className="px-3 py-1 rounded-full text-xs font-black uppercase border-2" style={{ background: 'var(--surface)', borderColor: 'var(--card-border)', color: 'var(--text)' }}>
                                 Live Map
                             </span>
-                            <span className="bg-red-500 text-white px-3 py-1 rounded-full text-xs font-black uppercase border-2 border-black animate-pulse">
+                            <span className="bg-red-500 text-white px-3 py-1 rounded-full text-xs font-black uppercase border-2 border-red-600 animate-pulse">
                                 4 Active Venues
                             </span>
                         </div>
@@ -234,28 +200,31 @@ export function Dashboard() {
                                 key={event.id}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.3 + (i * 0.1) }}
-                                className={`min-w-[280px] md:min-w-[320px] snap-center p-6 rounded-[1.5rem] border-3 border-black shadow-hard hover:shadow-hard-xl hover:-translate-y-1 transition-all cursor-pointer ${event.bg_color} relative overflow-hidden group`}
+                                transition={{ delay: 0.3 + (i * 0.08) }}
+                                className={`min-w-[320px] md:min-w-[360px] snap-center relative overflow-hidden group feature-panel ${event.bg_color === 'bg-pop-pink' ? 'pink' : event.bg_color === 'bg-pop-yellow' ? 'yellow' : event.bg_color === 'bg-pop-blue' ? 'blue' : 'white'}`}
                             >
-                                <div className="absolute top-4 right-4 bg-black text-white text-[10px] font-bold px-2 py-1 rounded-md uppercase">
-                                    {new Date(event.event_date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                                <div className="feature-icon">
+                                    <MapPin className="w-5 h-5" />
                                 </div>
-                                <h3 className="text-xl font-black leading-tight mb-2 pr-8">{event.title}</h3>
-                                <p className="text-sm font-bold opacity-80 mb-4 line-clamp-2">{event.description}</p>
-                                <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wide">
-                                    <MapPin className="w-3 h-3" />
-                                    {event.location}
+
+                                <div style={{ position: 'absolute', top: 18, right: 18 }}>
+                                    <div className="px-3 py-1 rounded-md text-[12px] font-bold uppercase" style={{ background: 'rgba(0,0,0,0.85)', color: '#fff' }}>
+                                        {new Date(event.event_date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                                    </div>
                                 </div>
-                                <div className="absolute -bottom-10 -right-10 w-24 h-24 bg-white/20 rounded-full blur-xl group-hover:scale-150 transition-transform duration-500" />
+
+                                <div className="feature-bottom">
+                                    <h3 className="feature-title">{event.title}</h3>
+                                    <p className="feature-sub">{event.description}</p>
+                                </div>
                             </motion.div>
                         ))}
 
                         {/* Recruit Card */}
-                        <div className="min-w-[280px] snap-center p-6 rounded-[1.5rem] border-3 border-dashed border-gray-400 flex flex-col items-center justify-center text-center hover:bg-white transition-colors cursor-pointer group">
-                            <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mb-3 group-hover:bg-pop-pink group-hover:text-white transition-colors">
-                                <Sparkles className="w-6 h-6" />
-                            </div>
-                            <h3 className="font-black text-gray-500 group-hover:text-black">Explore More</h3>
+                        <div className="min-w-[320px] snap-center feature-panel white flex flex-col items-start justify-end p-6 cursor-pointer">
+                            <div className="feature-icon"><Sparkles className="w-5 h-5" /></div>
+                            <h3 className="feature-title">Explore More</h3>
+                            <p className="feature-sub">Discover additional features and tools.</p>
                         </div>
                     </div>
                 </div>

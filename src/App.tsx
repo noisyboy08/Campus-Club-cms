@@ -31,6 +31,7 @@ import { Breadcrumbs } from './components/Breadcrumbs';
 import { NotFound } from './pages/NotFound';
 import { AuthProvider } from './contexts/AuthContext';
 import { ToastProvider } from './contexts/ToastContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const PAGE_TRANSITION = {
@@ -109,9 +110,10 @@ function AnimatedRoutes() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <ToastProvider>
-        <BrowserRouter>
+    <ThemeProvider>
+      <AuthProvider>
+        <ToastProvider>
+          <BrowserRouter>
           <div className="min-h-screen flex flex-col">
             <Navbar />
             <main className="flex-grow">
@@ -119,8 +121,9 @@ export default function App() {
             </main>
             <Footer />
           </div>
-        </BrowserRouter>
-      </ToastProvider>
-    </AuthProvider>
+          </BrowserRouter>
+        </ToastProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }

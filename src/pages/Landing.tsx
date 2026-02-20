@@ -7,35 +7,42 @@ const FEATURES = [
     {
         title: "Event\nE-Tags",
         desc: "QR-based entry passes that live in your pocket.",
-        bg: "bg-[#FF3B6B]",
-        textColor: "text-white",
+        variant: 'feature-card--pink',
         icon: Ticket,
-        iconBg: "bg-black/20",
-        size: "tall",
+        iconBg: 'bg-black/20',
+        iconColor: 'text-white',
+        titleColor: 'text-white',
+        descColor: 'text-white',
     },
     {
         title: "Next-Gen\nE-ID",
         desc: "Verifiable digital student identity.",
-        bg: "bg-[#6B6BFF]",
-        textColor: "text-white",
+        variant: 'feature-card--purple',
         icon: Shield,
-        size: "tall",
+        iconBg: '',
+        iconColor: 'text-white',
+        titleColor: 'text-white',
+        descColor: 'text-white',
     },
     {
         title: "Gamified XP",
         desc: "Climb the leaderboard.",
-        bg: "bg-[#FFD700]",
-        textColor: "text-black",
+        variant: 'feature-card--yellow',
         icon: Trophy,
-        size: "tall",
+        iconBg: '',
+        iconColor: 'text-black',
+        titleColor: 'text-black',
+        descColor: 'text-black',
     },
     {
         title: "AI Hiring",
         desc: "Find talent instantly.",
-        bg: "bg-white",
-        textColor: "text-black",
+        variant: 'feature-card--white',
         icon: Users,
-        size: "tall",
+        iconBg: '',
+        iconColor: 'text-black',
+        titleColor: 'text-black',
+        descColor: 'text-black',
     },
 ];
 
@@ -223,16 +230,17 @@ export function Landing() {
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.08 }}
                             whileHover={{ scale: 0.97 }}
-                            className={`${f.bg} rounded-[2rem] p-6 border-4 border-black shadow-[8px_8px_0_#000] flex flex-col justify-between cursor-pointer overflow-hidden group`}
+                            className={`feature-card ${f.variant ?? ''}`}
+                            style={f.style}
                         >
-                            <div className={`w-12 h-12 ${f.iconBg ?? 'bg-black/10'} rounded-xl flex items-center justify-center`}>
-                                <f.icon className={`w-6 h-6 ${f.textColor}`} />
+                            <div className={`feature-icon ${f.iconBg ?? ''}`}>
+                                <f.icon className={`w-6 h-6 ${f.iconColor ?? ''}`} />
                             </div>
                             <div>
-                                <h3 className={`text-2xl font-black uppercase whitespace-pre-line leading-tight mb-2 ${f.textColor}`}>
+                                <h3 className={`feature-title ${f.titleColor ?? ''}`}>
                                     {f.title}
                                 </h3>
-                                <p className={`text-sm font-bold ${f.textColor} opacity-70`}>{f.desc}</p>
+                                <p className={`feature-desc ${f.descColor ?? ''}`}>{f.desc}</p>
                             </div>
                         </motion.div>
                     ))}

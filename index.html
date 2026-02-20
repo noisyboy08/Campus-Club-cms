@@ -11,6 +11,19 @@
     <title>Club Activity Management System • CAMS</title>
   </head>
   <body>
+    <!-- Set initial theme as early as possible to avoid FOUC -->
+    <script>
+      (function(){
+        try {
+          var t = localStorage.getItem('theme');
+          if (!t) {
+            var mq = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+            t = mq && mq.matches ? 'dark' : 'light';
+          }
+          if (t === 'dark') document.documentElement.classList.add('dark');
+        } catch (e) {}
+      })();
+    </script>
     <div id="root" style="font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Times New Roman', serif"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
