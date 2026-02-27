@@ -5,14 +5,13 @@ import { VenueMap } from "../components/VenueMap";
 import { Leaderboard } from "../components/Leaderboard";
 import { Sparkles, MapPin, Target, PieChart, X, Zap, Calendar, ArrowUpRight, Bell, Search, Menu, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MOCK_EVENTS, MOCK_PROFILE } from "../lib/mockData";
+import { MOCK_EVENTS } from "../lib/mockData";
 
 export function Dashboard() {
     const [showDailyBonus, setShowDailyBonus] = useState(false);
-    const [currentTime, setCurrentTime] = useState(new Date());
     const [showNotifications, setShowNotifications] = useState(false);
     const [showSearch, setShowSearch] = useState(false);
-    const [focusMode, setFocusMode] = useState(false);
+    const [focusMode] = useState(false);
     const [notifications, setNotifications] = useState([
         { id: 1, title: 'Venue Booking Confirmed', message: 'Your request for "Main Auditorium" has been approved.', time: '2m ago', type: 'success' },
         { id: 2, title: 'New Event: Bot Wars', message: 'Robotics Club just published a new event.', time: '1h ago', type: 'info' },
@@ -28,7 +27,7 @@ export function Dashboard() {
             localStorage.setItem('lastLoginDate', today);
         }
 
-        const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+
 
         // Keyboard shortcut for search
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -41,7 +40,7 @@ export function Dashboard() {
         window.addEventListener('keydown', handleKeyDown);
 
         return () => {
-            clearInterval(timer);
+
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, []);
@@ -56,52 +55,52 @@ export function Dashboard() {
                         Morning,
                     </h1>
                     <div className="relative">
-                            <button
-                                onClick={() => setShowNotifications(!showNotifications)}
-                                className={`w-12 h-12 border-2 border-black rounded-full flex items-center justify-center relative hover:scale-105 transition-transform shadow-hard-sm ${showNotifications ? 'bg-black text-white' : 'bg-pop-yellow text-black'}`}
-                            >
-                                <Bell className="w-5 h-5" />
-                                {notifications.length > 0 && (
-                                    <span className="absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full border border-black animate-bounce" />
-                                )}
-                            </button>
+                        <button
+                            onClick={() => setShowNotifications(!showNotifications)}
+                            className={`w-12 h-12 border-2 border-black rounded-full flex items-center justify-center relative hover:scale-105 transition-transform shadow-hard-sm ${showNotifications ? 'bg-black text-white' : 'bg-pop-yellow text-black'}`}
+                        >
+                            <Bell className="w-5 h-5" />
+                            {notifications.length > 0 && (
+                                <span className="absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full border border-black animate-bounce" />
+                            )}
+                        </button>
 
-                            {/* Notification Dropdown */}
-                            <AnimatePresence>
-                                {showNotifications && (
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                        className="absolute top-14 right-0 w-80 bg-white border-4 border-black shadow-hard-xl rounded-2xl overflow-hidden z-[100]"
-                                    >
-                                        <div className="bg-gray-100 p-3 border-b-2 border-black flex justify-between items-center">
-                                            <span className="font-black uppercase text-xs">Notifications</span>
-                                            <button onClick={() => setNotifications([])} className="text-[10px] font-bold underline hover:text-red-500">Clear All</button>
-                                        </div>
-                                        <div className="max-h-64 overflow-y-auto">
-                                            {notifications.length === 0 ? (
-                                                <div className="p-8 text-center opacity-50 font-bold text-sm">No new alerts</div>
-                                            ) : (
-                                                notifications.map(notif => (
-                                                    <div key={notif.id} className="p-4 border-b border-gray-100 hover:bg-pop-stripes hover:bg-opacity-5 transition-colors cursor-pointer group">
-                                                        <div className="flex justify-between items-start mb-1">
-                                                            <h4 className="font-bold text-sm leading-tight group-hover:text-pop-purple">{notif.title}</h4>
-                                                            <span className="text-[10px] text-gray-400 font-mono">{notif.time}</span>
-                                                        </div>
-                                                        <p className="text-xs text-gray-600 leading-snug">{notif.message}</p>
+                        {/* Notification Dropdown */}
+                        <AnimatePresence>
+                            {showNotifications && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                    className="absolute top-14 right-0 w-80 bg-white border-4 border-black shadow-hard-xl rounded-2xl overflow-hidden z-[100]"
+                                >
+                                    <div className="bg-gray-100 p-3 border-b-2 border-black flex justify-between items-center">
+                                        <span className="font-black uppercase text-xs">Notifications</span>
+                                        <button onClick={() => setNotifications([])} className="text-[10px] font-bold underline hover:text-red-500">Clear All</button>
+                                    </div>
+                                    <div className="max-h-64 overflow-y-auto">
+                                        {notifications.length === 0 ? (
+                                            <div className="p-8 text-center opacity-50 font-bold text-sm">No new alerts</div>
+                                        ) : (
+                                            notifications.map(notif => (
+                                                <div key={notif.id} className="p-4 border-b border-gray-100 hover:bg-pop-stripes hover:bg-opacity-5 transition-colors cursor-pointer group">
+                                                    <div className="flex justify-between items-start mb-1">
+                                                        <h4 className="font-bold text-sm leading-tight group-hover:text-pop-purple">{notif.title}</h4>
+                                                        <span className="text-[10px] text-gray-400 font-mono">{notif.time}</span>
                                                     </div>
-                                                ))
-                                            )}
-                                        </div>
-                                        <div className="p-2 bg-gray-50 text-center border-t-2 border-black">
-                                            <Link to="#" className="text-[10px] font-black uppercase tracking-widest hover:text-pop-purple">View History</Link>
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
+                                                    <p className="text-xs text-gray-600 leading-snug">{notif.message}</p>
+                                                </div>
+                                            ))
+                                        )}
+                                    </div>
+                                    <div className="p-2 bg-gray-50 text-center border-t-2 border-black">
+                                        <Link to="#" className="text-[10px] font-black uppercase tracking-widest hover:text-pop-purple">View History</Link>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                     </div>
+                </div>
             </header>
 
             {/* --- BENTO GRID LAYOUT --- */}

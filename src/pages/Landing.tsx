@@ -231,7 +231,6 @@ export function Landing() {
                             transition={{ delay: i * 0.08 }}
                             whileHover={{ scale: 0.97 }}
                             className={`feature-card ${f.variant ?? ''}`}
-                            style={f.style}
                         >
                             <div className={`feature-icon ${f.iconBg ?? ''}`}>
                                 <f.icon className={`w-6 h-6 ${f.iconColor ?? ''}`} />

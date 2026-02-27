@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
 type Theme = 'light' | 'dark';
 
@@ -36,7 +36,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       try {
         const stored = localStorage.getItem('theme');
         if (stored === 'light' || stored === 'dark') return; // user override
-      } catch (e) {}
+      } catch (e) { }
       setTheme(e.matches ? 'dark' : 'light');
     };
     if (mq.addEventListener) mq.addEventListener('change', handler);
