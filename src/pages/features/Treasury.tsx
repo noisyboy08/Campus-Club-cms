@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { ArrowLeft, TrendingUp, DollarSign, Wallet, FileText, Download, RefreshCw, ShoppingCart, Music, Zap, Globe } from 'lucide-react';
+import { ArrowLeft, TrendingUp, DollarSign, Wallet, FileText, Download, RefreshCw, ShoppingCart, Music, Zap, Globe, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
-const TRANSACTIONS = [
-    { title: "Hackathon Prizes", type: "Expense", amount: -15000, date: "Feb 18, 2026", status: "Approved", category: "Events" },
-    { title: "Sponsorship: Red Bull", type: "Income", amount: +25000, date: "Feb 15, 2026", status: "Received", category: "Sponsor" },
-    { title: "Venue Booking", type: "Expense", amount: -5000, date: "Feb 12, 2026", status: "Pending", category: "Venue" },
-    { title: "T-Shirt Merch Sales", type: "Income", amount: +8000, date: "Feb 10, 2026", status: "Received", category: "Merch" },
-    { title: "Equipment Rental", type: "Expense", amount: -3500, date: "Feb 08, 2026", status: "Approved", category: "Ops" },
+const INITIAL_TRANSACTIONS = [
+    { id: 1, title: "Hackathon Prizes", type: "Expense", amount: -15000, date: "Feb 18, 2026", status: "Approved", category: "Events" },
+    { id: 2, title: "Sponsorship: Red Bull", type: "Income", amount: +25000, date: "Feb 15, 2026", status: "Received", category: "Sponsor" },
+    { id: 3, title: "Venue Booking", type: "Expense", amount: -5000, date: "Feb 12, 2026", status: "Pending", category: "Venue" },
+    { id: 4, title: "T-Shirt Merch Sales", type: "Income", amount: +8000, date: "Feb 10, 2026", status: "Received", category: "Merch" },
+    { id: 5, title: "Equipment Rental", type: "Expense", amount: -3500, date: "Feb 08, 2026", status: "Pending", category: "Ops" },
 ];
 
 const CATEGORIES = [
@@ -28,11 +28,33 @@ const SUBSCRIPTIONS = [
 
 export function Treasury() {
     const [activeTab, setActiveTab] = useState<'overview' | 'breakdown' | 'subscriptions'>('overview');
+    const [transactions, setTransactions] = useState(INITIAL_TRANSACTIONS);
+    const [coins, setCoins] = useState<{ id: number, x: number }[]>([]);
+
+    const handleApprove = (txId: number, e: React.MouseEvent) => {
+        // Find click position for coin animation
+        const rect = e.currentTarget.getBoundingClientRect();
+
+        // Spawn 5 coins
+        const newCoins = Array.from({ length: 5 }).map((_, i) => ({
+            id: Date.now() + i,
+            x: rect.left + (Math.random() * 40 - 20)
+        }));
+
+        setCoins(prev => [...prev, ...newCoins]);
+
+        // Clean up coins
+        setTimeout(() => {
+            setCoins(prev => prev.filter(c => !newCoins.find(nc => nc.id === c.id)));
+        }, 2000);
+
+        setTransactions(prev => prev.map(t => t.id === txId ? { ...t, status: 'Approved' } : t));
+    };
 
     const handleCSVExport = () => {
         const rows = [
             ['Title', 'Type', 'Amount (₹)', 'Date', 'Status', 'Category'],
-            ...TRANSACTIONS.map(t => [t.title, t.type, String(t.amount), t.date, t.status, t.category]),
+            ...transactions.map(t => [t.title, t.type, String(t.amount), t.date, t.status, t.category]),
         ];
         const csv = rows.map(r => r.join(',')).join('\n');
         const blob = new Blob([csv], { type: 'text/csv' });
@@ -44,6 +66,8 @@ export function Treasury() {
     const totalBalance = 45000;
     const totalBudget = 100000;
     const utilizedPct = Math.round((totalBalance / totalBudget) * 100);
+    const dashArray = 283; // 2 * pi * r (r=45)
+    const dashOffset = dashArray - (dashArray * utilizedPct) / 100;
 
     return (
         <div className="min-h-screen bg-pop-bg p-4 md:p-8 pt-8 font-sans overflow-x-hidden">
@@ -96,24 +120,44 @@ export function Treasury() {
                     ))}
                 </div>
 
-                {/* ── Budget Bar ── */}
-                <div className="bg-white p-6 rounded-2xl border-3 border-black shadow-hard mb-8">
-                    <div className="flex justify-between text-sm font-bold uppercase mb-3">
-                        <span>Budget Utilized</span>
-                        <span>{utilizedPct}%</span>
+                {/* ── Massive Budget Circle ── */}
+                <div className="bg-white p-8 rounded-[2.5rem] border-4 border-black shadow-hard mb-12 flex flex-col md:flex-row items-center gap-12 justify-center">
+                    <div className="relative w-64 h-64 shrink-0">
+                        {/* Background Circle */}
+                        <svg className="w-full h-full transform -rotate-90">
+                            <circle cx="128" cy="128" r="100" className="stroke-gray-100" strokeWidth="32" fill="none" />
+                            <motion.circle
+                                initial={{ strokeDashoffset: dashArray }}
+                                animate={{ strokeDashoffset: dashOffset * 2.22 }} // scaling for r=100
+                                transition={{ duration: 1.5, ease: "easeOut" }}
+                                cx="128" cy="128" r="100"
+                                className="stroke-green-400"
+                                strokeWidth="32"
+                                fill="none"
+                                strokeDasharray={628} // 2 * pi * 100
+                                strokeLinecap="round"
+                            />
+                        </svg>
+                        <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+                            <span className="text-5xl font-black text-black">{utilizedPct}%</span>
+                            <span className="text-xs font-bold uppercase tracking-widest text-gray-400 mt-1">Utilized</span>
+                        </div>
                     </div>
-                    <div className="w-full h-6 bg-gray-100 rounded-full border-2 border-black overflow-hidden">
-                        <motion.div
-                            initial={{ width: 0 }}
-                            animate={{ width: `${utilizedPct}%` }}
-                            transition={{ duration: 1.2, ease: 'easeOut' }}
-                            className="h-full bg-green-400 border-r-2 border-black relative"
-                        >
-                            <div className="absolute inset-0 bg-[repeating-linear-gradient(45deg,transparent,transparent_4px,rgba(255,255,255,0.4)_4px,rgba(255,255,255,0.4)_8px)]" />
-                        </motion.div>
-                    </div>
-                    <div className="flex justify-between mt-2 text-xs font-bold text-gray-500 uppercase">
-                        <span>Used: ₹45k</span><span>Cap: ₹100k</span>
+
+                    <div className="flex-1 max-w-sm text-center md:text-left">
+                        <h2 className="text-3xl font-black uppercase text-black mb-2 tracking-tight">Main Treasury</h2>
+                        <p className="text-gray-500 font-bold mb-6">You've successfully managed to keep expenses below the 50% threshold this quarter.</p>
+
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="bg-gray-50 border-2 border-black p-4 rounded-2xl">
+                                <p className="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-1">Current Balance</p>
+                                <p className="text-2xl font-black text-green-600">₹45k</p>
+                            </div>
+                            <div className="bg-gray-50 border-2 border-black p-4 rounded-2xl">
+                                <p className="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-1">Total Cap</p>
+                                <p className="text-2xl font-black text-black">₹100k</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -124,8 +168,8 @@ export function Treasury() {
                             key={tab}
                             onClick={() => setActiveTab(tab)}
                             className={`px-5 py-2 rounded-xl font-black uppercase text-xs tracking-widest transition-all ${activeTab === tab
-                                    ? 'bg-black text-white shadow-hard-sm'
-                                    : 'hover:bg-white hover:text-black text-gray-500'
+                                ? 'bg-black text-white shadow-hard-sm'
+                                : 'hover:bg-white hover:text-black text-gray-500'
                                 }`}
                         >
                             {tab}
@@ -144,26 +188,40 @@ export function Treasury() {
                             <h2 className="text-xl font-black uppercase text-gray-300">Recent Activity</h2>
                             <button className="text-xs font-bold bg-white/10 hover:bg-white hover:text-black text-gray-300 px-4 py-2 rounded-xl transition-colors">View All</button>
                         </div>
-                        <div className="space-y-3">
-                            {TRANSACTIONS.map((tx, i) => (
+                        <div className="space-y-3 relative z-10">
+                            {transactions.map((tx, i) => (
                                 <motion.div
-                                    key={i}
+                                    key={tx.id}
                                     initial={{ opacity: 0, x: -10 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: i * 0.07 }}
-                                    className="flex items-center justify-between p-4 bg-gray-900 rounded-xl border border-gray-800 hover:border-gray-600 transition-colors group"
+                                    className="flex flex-col md:flex-row items-start md:items-center justify-between p-5 bg-gray-900 rounded-2xl border-2 border-gray-800 hover:border-gray-500 transition-colors group gap-4"
                                 >
                                     <div className="flex items-center gap-4">
-                                        <div className={`p-3 rounded-lg ${tx.type === 'Income' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
-                                            <FileText className="w-4 h-4" />
+                                        <div className={`p-4 rounded-xl border-2 shadow-inner ${tx.type === 'Income' ? 'bg-green-500/20 text-green-400 border-green-500/30' : 'bg-red-500/20 text-red-400 border-red-500/30'}`}>
+                                            <FileText className="w-6 h-6" />
                                         </div>
                                         <div>
-                                            <h4 className="font-bold">{tx.title}</h4>
-                                            <p className="text-xs text-gray-500 uppercase font-bold">{tx.date} • {tx.status} • {tx.category}</p>
+                                            <h4 className="font-black text-lg text-white tracking-tight">{tx.title}</h4>
+                                            <div className="flex items-center gap-2 mt-1">
+                                                <span className={`text-[10px] px-2 py-0.5 rounded font-bold uppercase ${tx.status === 'Approved' || tx.status === 'Received' ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-500 animate-pulse'}`}>{tx.status}</span>
+                                                <span className="text-xs text-gray-500 uppercase font-bold">{tx.date} • {tx.category}</span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className={`text-xl font-black ${tx.type === 'Income' ? 'text-green-400' : 'text-red-400'}`}>
-                                        {tx.type === 'Income' ? '+' : ''}₹{Math.abs(tx.amount).toLocaleString()}
+                                    <div className="flex items-center gap-6 w-full md:w-auto justify-between md:justify-end">
+                                        <div className={`text-2xl font-black ${tx.type === 'Income' ? 'text-green-400' : 'text-red-400'}`}>
+                                            {tx.type === 'Income' ? '+' : ''}₹{Math.abs(tx.amount).toLocaleString()}
+                                        </div>
+
+                                        {tx.status === 'Pending' && (
+                                            <button
+                                                onClick={(e) => handleApprove(tx.id, e)}
+                                                className="bg-white hover:bg-green-400 text-black px-4 py-2 rounded-xl font-bold uppercase text-xs border-2 border-black shadow-hard-sm transition-all hover:-translate-y-1 flex items-center gap-2 relative z-20"
+                                            >
+                                                <CheckCircle className="w-4 h-4" /> Approve
+                                            </button>
+                                        )}
                                     </div>
                                 </motion.div>
                             ))}
@@ -258,6 +316,28 @@ export function Treasury() {
                 )}
 
             </div>
+
+            {/* Global Coin Drops */}
+            <AnimatePresence>
+                {coins.map(coin => (
+                    <motion.div
+                        key={coin.id}
+                        initial={{ opacity: 1, y: 0, rotate: Math.random() * 360, x: 0 }}
+                        animate={{
+                            opacity: [1, 1, 0],
+                            y: [0, -100, 800],
+                            x: [0, (Math.random() - 0.5) * 200, (Math.random() - 0.5) * 300],
+                            rotate: [0, Math.random() * 720]
+                        }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 1.5, ease: "easeInOut" }}
+                        className="fixed z-50 pointer-events-none w-12 h-12 bg-yellow-400 rounded-full border-4 border-black text-xl flex items-center justify-center font-black shadow-hard"
+                        style={{ left: coin.x, top: '40%' }} // Starting roughly midway
+                    >
+                        $
+                    </motion.div>
+                ))}
+            </AnimatePresence>
         </div>
     );
 }
