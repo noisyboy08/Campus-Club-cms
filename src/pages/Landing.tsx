@@ -19,7 +19,7 @@ const FEATURES = [
         desc: "Verifiable digital student identity.",
         variant: 'feature-card--purple',
         icon: Shield,
-        iconBg: '',
+        iconBg: 'bg-black/20',
         iconColor: 'text-white',
         titleColor: 'text-white',
         descColor: 'text-white',
@@ -29,7 +29,7 @@ const FEATURES = [
         desc: "Climb the leaderboard.",
         variant: 'feature-card--yellow',
         icon: Trophy,
-        iconBg: '',
+        iconBg: 'bg-black/10',
         iconColor: 'text-black',
         titleColor: 'text-black',
         descColor: 'text-black',
@@ -39,10 +39,10 @@ const FEATURES = [
         desc: "Find talent instantly.",
         variant: 'feature-card--white',
         icon: Users,
-        iconBg: '',
+        iconBg: 'bg-gray-100',
         iconColor: 'text-black',
         titleColor: 'text-black',
-        descColor: 'text-black',
+        descColor: 'text-gray-600',
     },
 ];
 
@@ -221,7 +221,7 @@ export function Landing() {
                 </div>
 
                 {/* Feature Cards Grid */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 h-auto md:h-[580px] mb-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 h-auto md:h-[420px] mb-8">
                     {FEATURES.map((f, i) => (
                         <motion.div
                             key={f.title}
@@ -230,12 +230,15 @@ export function Landing() {
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.08 }}
                             whileHover={{ scale: 0.97 }}
-                            className={`feature-card ${f.variant ?? ''}`}
+                            className={`feature-card relative overflow-hidden group ${f.variant ?? ''}`}
                         >
-                            <div className={`feature-icon ${f.iconBg ?? ''}`}>
+                            {/* Decorative Background Icon */}
+                            <f.icon className={`absolute -right-8 top-1/2 -translate-y-1/2 w-56 h-56 opacity-10 pointer-events-none group-hover:scale-110 transition-transform duration-500 ease-out ${f.iconColor ?? ''}`} />
+
+                            <div className={`feature-icon relative z-10 ${f.iconBg ?? ''}`}>
                                 <f.icon className={`w-6 h-6 ${f.iconColor ?? ''}`} />
                             </div>
-                            <div>
+                            <div className="relative z-10">
                                 <h3 className={`feature-title ${f.titleColor ?? ''}`}>
                                     {f.title}
                                 </h3>

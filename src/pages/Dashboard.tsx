@@ -107,10 +107,10 @@ export function Dashboard() {
             <div className="grid grid-cols-1 md:grid-cols-12 auto-rows-min gap-6 max-w-[1600px] mx-auto text-left">
 
                 {/* 1. ID CARD WIDGET (3 cols) */}
-                <div className="md:col-span-6 lg:col-span-3 row-span-2">
+                <div className="md:col-span-6 lg:col-span-3 h-full">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-                        className="card rounded-[2rem] border-4 p-4 flex flex-col items-center justify-center relative overflow-hidden group min-h-[450px]"
+                        className="card rounded-[2rem] border-4 p-4 flex flex-col items-center justify-center relative overflow-hidden group h-full min-h-[450px]"
                     >
                         <div className="absolute top-0 left-0 w-full h-2 bg-pop-stripes opacity-20" />
 
@@ -127,7 +127,7 @@ export function Dashboard() {
                 </div>
 
                 {/* 3. STATS & LEADERBOARD (3 cols) - Moved UP for tablet flow */}
-                <div className="md:col-span-6 lg:col-span-3 row-span-2 flex flex-col gap-6">
+                <div className="md:col-span-6 lg:col-span-3 flex flex-col gap-6 h-full">
                     {/* XP Card */}
                     <motion.div
                         initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.2 }}
@@ -157,7 +157,7 @@ export function Dashboard() {
                 </div>
 
                 {/* 2. MAIN MAP WIDGET (6 cols) */}
-                <div className="md:col-span-12 lg:col-span-6 row-span-1 h-[450px]">
+                <div className="md:col-span-12 lg:col-span-6 h-full min-h-[450px]">
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
                         className="w-full h-full rounded-[2rem] border-4 overflow-hidden relative group card"
@@ -229,11 +229,11 @@ export function Dashboard() {
                 </div>
 
                 {/* 5. QUICK LAUNCH DOCK (3 cols) */}
-                <div className={`md:col-span-4 lg:col-span-3 flex flex-col transition-all duration-500 ${focusMode ? 'opacity-50 pointer-events-none blur-sm grayscale' : 'opacity-100'}`}>
+                <div className={`md:col-span-4 lg:col-span-3 flex flex-col self-start transition-all duration-500 ${focusMode ? 'opacity-50 pointer-events-none blur-sm grayscale' : 'opacity-100'}`}>
                     <h2 className="text-xl font-black uppercase mb-4 flex items-center gap-2">
                         <Menu className="w-5 h-5" /> Quick Apps
                     </h2>
-                    <div className="grid grid-cols-2 gap-4 flex-1">
+                    <div className="grid grid-cols-2 gap-4">
                         <Link to="/apps" className="bg-black hover:bg-gray-800 text-white rounded-2xl p-4 flex flex-col items-center justify-center gap-2 transition-transform hover:scale-105 active:scale-95 shadow-hard-sm">
                             <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center">
                                 <Target className="w-5 h-5" />
