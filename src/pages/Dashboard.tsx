@@ -103,70 +103,73 @@ export function Dashboard() {
                 </div>
             </header>
 
-            {/* --- BENTO GRID LAYOUT --- */}
-            <div className="grid grid-cols-1 md:grid-cols-12 auto-rows-min gap-6 max-w-[1600px] mx-auto text-left">
+            {/* --- THREE COLUMN LAYOUT --- */}
+            <div className="flex flex-col xl:flex-row gap-6 lg:gap-8 max-w-[1600px] mx-auto items-stretch text-left">
 
-                {/* 1. ID CARD WIDGET (3 cols) */}
-                <div className="md:col-span-6 lg:col-span-3 h-full">
+                {/* COLUMN 1: Identity & Launchpad */}
+                <div className="w-full xl:w-[320px] flex flex-col gap-6 shrink-0">
+                    {/* ID CARD */}
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-                        className="card rounded-[2rem] border-4 p-4 flex flex-col items-center justify-center relative overflow-hidden group h-full min-h-[450px]"
+                        initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
+                        className="card rounded-[2.5rem] border-4 p-4 flex flex-col items-center justify-center relative overflow-hidden group shadow-[8px_8px_0_#000]"
                     >
-                        <div className="absolute top-0 left-0 w-full h-2 bg-pop-stripes opacity-20" />
-
-                        <div className="transform scale-[0.85] origin-center hover:scale-[0.9] transition-transform duration-500 ease-out">
+                        <div className="absolute top-0 left-0 w-full h-8 bg-pop-stripes opacity-20" />
+                        <div className="transform origin-center hover:scale-[1.02] transition-transform duration-500 ease-out w-full flex justify-center mt-2 z-10">
                             <ID />
                         </div>
-
-                        <div className="mt-4 mb-2 text-center z-10 w-full px-4">
-                            <Link to="/apps/org" className="inline-block px-4 py-2 bg-black dark:bg-[#0b1220] text-white rounded-full font-bold text-xs uppercase hover:bg-pop-purple transition-colors">
+                        <div className="mt-6 mb-2 text-center z-10 w-full px-4">
+                            <Link to="/apps/org" className="inline-block w-full py-3 bg-black dark:bg-[#0b1220] text-white rounded-full font-black text-sm uppercase hover:bg-pop-purple transition-colors border-2 border-transparent hover:border-black shadow-hard-sm">
                                 View Full Profile
                             </Link>
                         </div>
                     </motion.div>
-                </div>
 
-                {/* 3. STATS & LEADERBOARD (3 cols) - Moved UP for tablet flow */}
-                <div className="md:col-span-6 lg:col-span-3 flex flex-col gap-6 h-full">
-                    {/* XP Card */}
-                    <motion.div
-                        initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.2 }}
-                        className="rounded-[2rem] border-4 p-6 relative overflow-hidden flex-1 min-h-[180px] bg-[linear-gradient(180deg,#6b6bff,rgba(107,107,255,0.85))] text-white"
-                    >
-                        <div className="absolute -right-4 -top-4 text-white/10">
-                            <Zap className="w-32 h-32 rotate-12" />
-                        </div>
-                        <h3 className="text-sm font-black uppercase tracking-widest opacity-80">Current XP</h3>
-                        <p className="text-5xl font-black mt-2 mb-4">12,500</p>
-                        <div className="w-full h-3 bg-black/30 rounded-full overflow-hidden border-2 border-black/20">
-                            <div className="h-full bg-pop-yellow w-[70%]" />
-                        </div>
-                        <p className="text-xs font-bold mt-2 text-right">Lvl 5 • 2500 XP to next</p>
-                    </motion.div>
-
-                    {/* Mini Leaderboard */}
-                    <div className="flex-1 card rounded-[2rem] overflow-hidden flex flex-col min-h-[300px]">
-                        <div className="bg-pop-yellow p-4 border-b-4 border-black flex justify-between items-center">
-                            <h3 className="font-black uppercase text-lg">Top 3 Ranking</h3>
-                            <Target className="w-5 h-5" />
-                        </div>
-                        <div className="p-4 overflow-y-auto custom-scrollbar flex-1">
-                            <Leaderboard />
+                    {/* QUICK APPS */}
+                    <div className={`flex flex-col transition-all duration-500 mt-2 ${focusMode ? 'opacity-50 blur-sm grayscale' : ''}`}>
+                        <h2 className="text-xl font-black uppercase mb-4 flex items-center gap-2 tracking-tight">
+                            <Menu className="w-5 h-5" /> Quick Apps
+                        </h2>
+                        <div className="grid grid-cols-2 gap-4">
+                            <Link to="/apps" className="bg-black hover:bg-gray-800 text-white rounded-2xl p-4 flex flex-col items-center justify-center gap-2 transition-transform hover:-translate-y-1 shadow-hard-sm">
+                                <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center">
+                                    <Target className="w-5 h-5" />
+                                </div>
+                                <span className="font-bold text-xs uppercase">App Store</span>
+                            </Link>
+                            <Link to="/polls" className="bg-pop-pink hover:bg-pink-400 text-black rounded-2xl p-4 flex flex-col items-center justify-center gap-2 transition-transform hover:-translate-y-1 border-2 border-black shadow-[4px_4px_0_#000]">
+                                <div className="w-10 h-10 bg-black/10 rounded-full flex items-center justify-center">
+                                    <PieChart className="w-5 h-5" />
+                                </div>
+                                <span className="font-bold text-xs uppercase">Vote</span>
+                            </Link>
+                            <Link to="/recruitment" className="bg-pop-cyan hover:bg-cyan-300 text-black rounded-2xl p-4 flex flex-col items-center justify-center gap-2 transition-transform hover:-translate-y-1 border-2 border-black shadow-[4px_4px_0_#000]">
+                                <div className="w-10 h-10 bg-black/10 rounded-full flex items-center justify-center">
+                                    <Sparkles className="w-5 h-5" />
+                                </div>
+                                <span className="font-bold text-xs uppercase">Jobs</span>
+                            </Link>
+                            <Link to="/apps/docs" className="bg-white hover:bg-gray-50 text-black rounded-2xl p-4 flex flex-col items-center justify-center gap-2 transition-transform hover:-translate-y-1 border-2 border-black shadow-[4px_4px_0_#000]">
+                                <div className="w-10 h-10 bg-black/10 rounded-full flex items-center justify-center">
+                                    <Search className="w-5 h-5" />
+                                </div>
+                                <span className="font-bold text-xs uppercase">Files</span>
+                            </Link>
                         </div>
                     </div>
                 </div>
 
-                {/* 2. MAIN MAP WIDGET (6 cols) */}
-                <div className="md:col-span-12 lg:col-span-6 h-full min-h-[450px]">
+                {/* COLUMN 2: Main Content */}
+                <div className="w-full xl:flex-1 flex flex-col gap-6 min-w-0">
+                    {/* MAP */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
-                        className="w-full h-full rounded-[2rem] border-4 overflow-hidden relative group card"
+                        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+                        className="w-full h-[400px] md:h-[450px] xl:h-[500px] rounded-[2.5rem] border-4 border-black overflow-hidden relative group card shadow-[8px_8px_0_#000]"
                     >
                         <div className="absolute top-4 left-4 z-10 flex gap-2">
-                            <span className="px-3 py-1 rounded-full text-xs font-black uppercase border-2" style={{ background: 'var(--surface)', borderColor: 'var(--card-border)', color: 'var(--text)' }}>
+                            <span className="px-3 py-1 bg-white text-black rounded-full text-[10px] md:text-xs font-black uppercase border-2 shadow-hard-sm border-black">
                                 Live Map
                             </span>
-                            <span className="bg-red-500 text-white px-3 py-1 rounded-full text-xs font-black uppercase border-2 border-red-600 animate-pulse">
+                            <span className="bg-red-500 text-white px-3 py-1 rounded-full text-[10px] md:text-xs font-black uppercase border-2 border-black shadow-hard-sm animate-pulse whitespace-nowrap">
                                 4 Active Venues
                             </span>
                         </div>
@@ -174,90 +177,95 @@ export function Dashboard() {
 
                         {/* Overlay Controls */}
                         <div className="absolute bottom-4 right-4 z-10 flex gap-2">
-                            <Link to="/apps/booking" className="bg-white hover:bg-pop-yellow text-black w-10 h-10 rounded-xl border-2 border-black flex items-center justify-center shadow-hard-sm transition-all group/btn">
-                                <span className="absolute right-12 bg-black text-white px-2 py-1 rounded text-[10px] font-bold uppercase opacity-0 group-hover/btn:opacity-100 transition-opacity">
+                            <Link to="/apps/booking" className="bg-white hover:bg-pop-yellow text-black w-10 h-10 md:w-12 md:h-12 rounded-xl border-2 border-black flex items-center justify-center shadow-hard-sm transition-all group/btn">
+                                <span className="absolute right-14 bg-black text-white px-2 py-1 rounded text-[10px] font-bold uppercase opacity-0 group-hover/btn:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
                                     Book Now
                                 </span>
-                                <ArrowUpRight className="w-6 h-6" />
+                                <ArrowUpRight className="w-5 h-5 md:w-6 md:h-6" />
                             </Link>
                         </div>
                     </motion.div>
-                </div>
 
-                {/* 4. HORIZONTAL EVENTS FEED (9 cols) */}
-                <div className="md:col-span-8 lg:col-span-9">
-                    <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-2xl font-black uppercase flex items-center gap-2">
-                            <Calendar className="w-6 h-6" /> Upcoming Events
-                        </h2>
-                        <Link to="/apps/calendar" className="text-sm font-bold underline hover:text-pop-purple">View All</Link>
-                    </div>
+                    {/* EVENTS FEED */}
+                    <div className="flex flex-col mt-4">
+                        <div className="flex items-center justify-between mb-4">
+                            <h2 className="text-xl md:text-2xl font-black uppercase flex items-center gap-2 tracking-tight">
+                                <Calendar className="w-5 h-5 md:w-6 md:h-6" /> Upcoming Events
+                            </h2>
+                            <Link to="/apps/calendar" className="text-xs md:text-sm font-bold underline hover:text-pop-purple">View All</Link>
+                        </div>
 
-                    <div className="flex gap-4 overflow-x-auto pb-6 scrollbar-hide snap-x">
-                        {MOCK_EVENTS.map((event, i) => (
-                            <motion.div
-                                key={event.id}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.3 + (i * 0.08) }}
-                                className={`min-w-[320px] md:min-w-[360px] snap-center relative overflow-hidden group feature-panel ${event.bg_color === 'bg-pop-pink' ? 'pink' : event.bg_color === 'bg-pop-yellow' ? 'yellow' : event.bg_color === 'bg-pop-blue' ? 'blue' : 'white'}`}
-                            >
-                                <div className="feature-icon">
-                                    <MapPin className="w-5 h-5" />
-                                </div>
-
-                                <div style={{ position: 'absolute', top: 18, right: 18 }}>
-                                    <div className="px-3 py-1 rounded-md text-[12px] font-bold uppercase" style={{ background: 'rgba(0,0,0,0.85)', color: '#fff' }}>
-                                        {new Date(event.event_date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                        <div className="flex gap-4 overflow-x-auto pb-6 scrollbar-hide snap-x px-1">
+                            {MOCK_EVENTS.map((event, i) => (
+                                <motion.div
+                                    key={event.id}
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: 0.3 + (i * 0.08) }}
+                                    className={`min-w-[280px] md:min-w-[320px] snap-center bg-white border-4 border-black rounded-[2rem] p-5 shadow-[4px_4px_0_#000] hover:shadow-[8px_8px_0_#000] hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between min-h-[160px]`}
+                                >
+                                    <div className="flex justify-between items-start mb-4">
+                                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center border-2 border-black shadow-[2px_2px_0_#000] ${event.bg_color === 'bg-pop-pink' ? 'bg-pop-pink' : event.bg_color === 'bg-pop-yellow' ? 'bg-pop-yellow' : 'bg-pop-blue'}`}>
+                                            <MapPin className="w-5 h-5 text-black" />
+                                        </div>
+                                        <div className="px-3 py-1 bg-black text-white rounded-md text-[10px] font-black uppercase tracking-widest border-2 border-black shadow-[2px_2px_0_#000]">
+                                            {new Date(event.event_date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                                        </div>
                                     </div>
-                                </div>
+                                    <div>
+                                        <h3 className="font-black text-lg leading-tight uppercase mb-1 line-clamp-2">{event.title}</h3>
+                                        <p className="text-sm font-bold text-gray-500 line-clamp-1 dark:text-gray-400">{event.description}</p>
+                                    </div>
+                                </motion.div>
+                            ))}
 
-                                <div className="feature-bottom">
-                                    <h3 className="feature-title">{event.title}</h3>
-                                    <p className="feature-sub">{event.description}</p>
+                            {/* Recruit Card */}
+                            <div className="min-w-[280px] snap-center bg-gray-50 dark:bg-gray-900 border-4 border-black rounded-[2rem] p-5 shadow-[4px_4px_0_#000] hover:shadow-[8px_8px_0_#000] hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between border-dashed min-h-[160px]">
+                                <div className="w-10 h-10 rounded-xl bg-white dark:bg-gray-800 border-2 border-black shadow-[2px_2px_0_#000] flex items-center justify-center mb-4 text-black dark:text-white">
+                                    <Sparkles className="w-5 h-5" />
                                 </div>
-                            </motion.div>
-                        ))}
-
-                        {/* Recruit Card */}
-                        <div className="min-w-[320px] snap-center feature-panel white flex flex-col items-start justify-end p-6 cursor-pointer">
-                            <div className="feature-icon"><Sparkles className="w-5 h-5" /></div>
-                            <h3 className="feature-title">Explore More</h3>
-                            <p className="feature-sub">Discover additional features and tools.</p>
+                                <div>
+                                    <h3 className="font-black text-lg uppercase mb-1 opacity-60">Explore More</h3>
+                                    <p className="text-sm font-bold opacity-50">Discover additional tools.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                {/* 5. QUICK LAUNCH DOCK (3 cols) */}
-                <div className={`md:col-span-4 lg:col-span-3 flex flex-col self-start transition-all duration-500 ${focusMode ? 'opacity-50 pointer-events-none blur-sm grayscale' : 'opacity-100'}`}>
-                    <h2 className="text-xl font-black uppercase mb-4 flex items-center gap-2">
-                        <Menu className="w-5 h-5" /> Quick Apps
-                    </h2>
-                    <div className="grid grid-cols-2 gap-4">
-                        <Link to="/apps" className="bg-black hover:bg-gray-800 text-white rounded-2xl p-4 flex flex-col items-center justify-center gap-2 transition-transform hover:scale-105 active:scale-95 shadow-hard-sm">
-                            <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center">
-                                <Target className="w-5 h-5" />
-                            </div>
-                            <span className="font-bold text-xs uppercase">App Store</span>
-                        </Link>
-                        <Link to="/polls" className="bg-pop-pink hover:bg-pink-400 text-black rounded-2xl p-4 flex flex-col items-center justify-center gap-2 transition-transform hover:scale-105 active:scale-95 border-2 border-black shadow-hard-sm">
-                            <div className="w-10 h-10 bg-black/10 rounded-full flex items-center justify-center">
-                                <PieChart className="w-5 h-5" />
-                            </div>
-                            <span className="font-bold text-xs uppercase">Vote</span>
-                        </Link>
-                        <Link to="/recruitment" className="bg-pop-cyan hover:bg-cyan-300 text-black rounded-2xl p-4 flex flex-col items-center justify-center gap-2 transition-transform hover:scale-105 active:scale-95 border-2 border-black shadow-hard-sm">
-                            <div className="w-10 h-10 bg-black/10 rounded-full flex items-center justify-center">
-                                <Sparkles className="w-5 h-5" />
-                            </div>
-                            <span className="font-bold text-xs uppercase">Jobs</span>
-                        </Link>
-                        <Link to="/apps/docs" className="bg-white hover:bg-gray-50 text-black rounded-2xl p-4 flex flex-col items-center justify-center gap-2 transition-transform hover:scale-105 active:scale-95 border-2 border-black shadow-hard-sm">
-                            <div className="w-10 h-10 bg-black/10 rounded-full flex items-center justify-center">
-                                <Search className="w-5 h-5" />
-                            </div>
-                            <span className="font-bold text-xs uppercase">Files</span>
-                        </Link>
+                {/* COLUMN 3: Social & Progression */}
+                <div className="w-full xl:w-[320px] flex flex-col gap-6 shrink-0 h-[800px] xl:h-auto pb-8 xl:pb-0">
+                    {/* XP Card */}
+                    <motion.div
+                        initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.2 }}
+                        className="rounded-[2.5rem] border-4 border-black p-6 relative overflow-hidden bg-pop-purple text-white shadow-[8px_8px_0_#000] min-h-[200px] flex flex-col justify-center shrink-0"
+                    >
+                        <div className="absolute -right-4 -top-4 text-white/10 pointer-events-none">
+                            <Zap className="w-32 h-32 rotate-12" />
+                        </div>
+                        <h3 className="text-xs font-black uppercase tracking-widest opacity-80 mb-2">Current XP</h3>
+                        <div className="flex items-baseline gap-2 mb-4">
+                            <p className="text-5xl md:text-6xl xl:text-5xl font-black">12,500</p>
+                            <span className="text-sm font-bold text-pop-yellow">XP</span>
+                        </div>
+                        <div className="w-full h-4 bg-black/40 rounded-full overflow-hidden border-2 border-black/50 shadow-inner">
+                            <div className="h-full bg-pop-yellow w-[70%] border-r-2 border-black" />
+                        </div>
+                        <div className="flex justify-between items-center mt-3">
+                            <p className="text-[10px] font-black uppercase tracking-widest">Level 5</p>
+                            <p className="text-[10px] font-bold opacity-80">2500 XP to next</p>
+                        </div>
+                    </motion.div>
+
+                    {/* Mini Leaderboard */}
+                    <div className="flex-1 rounded-[2.5rem] border-4 border-black shadow-[8px_8px_0_#000] overflow-hidden flex flex-col min-h-[400px]">
+                        <div className="bg-pop-yellow p-5 border-b-4 border-black flex justify-between items-center z-10 relative">
+                            <h3 className="font-black uppercase text-xl tracking-tight text-black">Top 3 Ranking</h3>
+                            <Target className="w-6 h-6 text-black" />
+                        </div>
+                        <div className="p-4 overflow-y-auto custom-scrollbar flex-1 bg-white relative">
+                            <Leaderboard />
+                        </div>
                     </div>
                 </div>
 

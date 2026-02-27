@@ -19,7 +19,10 @@ export default function ID({ className = "" }: IDProps) {
     const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
 
     return (
-        <div className={`relative w-full max-w-[320px] h-[480px] perspective-1000 mx-auto group ${className}`}>
+        <div
+            className={`relative w-full max-w-[320px] h-[420px] mx-auto group ${className}`}
+            style={{ perspective: '1000px' }}
+        >
             <motion.div
                 style={{
                     rotateX,
